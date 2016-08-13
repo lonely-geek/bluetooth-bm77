@@ -25,7 +25,6 @@
 #include "stm32f10x_it.h"
 #include "stm32f10x_exti.h"
 #include "io.h"
-#include <stdio.h>
 
 volatile u16 ms_delay = 0;
 volatile u32 ms_timer = 0;
@@ -45,15 +44,12 @@ void EXTI2_IRQHandler(void)
 			io_status = GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_2);
 			if(!io_status)
 			{
-				printf("Key Pressed!\n");
 				ms_delay = 0;
 			}
 			else
 			{
-				printf("%d ms passed.. Key Up!\n",ms_delay);
 				if(ms_delay > 600)
 				{
-					printf("Power off\n");
 					SYS_POWER_OFF;
 				}
 			}
@@ -68,12 +64,10 @@ void EXTI9_5_IRQHandler(void)
 			io_status = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_6);
 			if(!io_status)
 			{
-				printf("Charger Plug in!\n");
 				LED1_Blink_Start(1000);
 			}
 			else
 			{
-				printf("Charger Plug out or charge full!\n");
 				LED1_Blink_Stop();
 			}
 	}
